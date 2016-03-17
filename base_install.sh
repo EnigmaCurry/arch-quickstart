@@ -148,7 +148,7 @@ cat <<EOF | arch-chroot /mnt /bin/bash
 EOF
 
 echo "Install finished. Reboot to boot into Arch."
-if [ $ROOT_PASSWD -eq 'root' ]; then
+if [ $ROOT_PASSWD == 'root' ]; then
     echo "Remember to change the root password. Default password is '$ROOT_PASSWD'"
 fi
 
