@@ -26,7 +26,7 @@
 #  2) Boot the regular Arch Install ISO from https://www.archlinux.org/download/
 #  3) Ensure you have a network connection. Wired should come up automatically. For wifi use 'wifi-menu' command.
 #  4) Run the following command, specifying any of the environment variables below (or don't and just use the defaults):
-#     curl https://github.com/EnigmaCurry/arch-quickstart/base_install.sh | INSTALL_DEVICE=/dev/sda HOSTNAME=lappy bash
+#     curl https://raw.githubusercontent.com/EnigmaCurry/arch-quickstart/master/base_install.sh | INSTALL_DEVICE=/dev/sda HOSTNAME=lappy bash
 
 # Default install parameters, any of these variables can be set
 # outside the script to specify something else:
