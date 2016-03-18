@@ -39,6 +39,10 @@
 [ -z "$HOSTNAME" ] && HOSTNAME=arch
 [ -z "$ARCH_MIRROR" ] && ARCH_MIRROR='http://kernel-mirror:9080/archlinux/$repo/os/$arch'
 
+# The following are asked interactively by default, but can be set in the environment too:
+# USER_NAME 
+# USER_PASSWORD
+
 echo
 
 # Fail fast if we get into trouble:
@@ -88,18 +92,24 @@ then
     exit 1
 fi
 
-if [ -z "$ROOT_PASSWD" ]
+if [ -z "$USER_NAME" ]
 then
-    echo "Root password was not specified in environment"
+    echo "Username was not specified in environment"
+    read -p "Enter the username to create:" USER_NAME
+fi
+
+if [ -z "$USER_PASSWD" ]
+then
+    echo "User password was not specified in environment"
     while :
     do
 	stty -echo
-	read -p "Enter a password for the root user account:" ROOT_PASSWD
+	read -p "Enter a password for the $USER_NAME account:" USER_PASSWD
 	echo
-	read -p "verify password:" VERIFY_ROOT_PASSWD
+	read -p "Verify password:" VERIFY_USER_PASSWD
 	echo
 	stty echo
-	if [ $ROOT_PASSWD == $VERIFY_ROOT_PASSWD ]
+	if [ $USER_PASSWD == $VERIFY_USER_PASSWD ]
 	then
 	    break
 	else
@@ -162,19 +172,30 @@ cat <<EOF | arch-chroot /mnt /bin/bash
   hwclock --systohc --utc
   echo $HOSTNAME > /etc/hostname
   systemctl enable dhcpcd.service
-  echo root:$ROOT_PASSWD | chpasswd
   sed -i 's/^HOOKS=.*/HOOKS="base udev autodetect modconf block keyboard lvm2 filesystems fsck"/' /etc/mkinitcpio.conf
   mkinitcpio -p linux
   pacman -S --noconfirm grub
   grub-mkconfig -o /boot/grub/grub.cfg
   grub-install $INSTALL_DEVICE
   chmod -R g-rwx,o-rwx /boot
+EOF
 
+cat <<EOF > /mnt/root/arch-quickstart/pillar/users/init.sls
+groups:
+  $USER_NAME: 1000
+
+users:
+  $USER_NAME:
+   uid: 1000
+   gid: 1000
+   groups:
+     - wheel
+EOF
+
+cat <<EOF | arch-chroot /mnt /bin/bash
   pacman -S --noconfirm git salt-zmq
   git clone https://github.com/EnigmaCurry/arch-quickstart.git /root/arch-quickstart
   cd /root/arch-quickstart
   ./user_bootstrap.sh
-  echo ryan:$ROOT_PASSWD | chpasswd
-
+  echo $USER_NAME:$USER_PASSWD | chpasswd
 EOF
-

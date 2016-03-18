@@ -2,7 +2,7 @@ base:
   '*':
     - base
     - sudo
-    - users.main
+    - users
     {% if grains['virtual'] == 'oracle' %}
     - virtualbox-guest
     {% endif %}
