@@ -30,8 +30,7 @@
 #  4) Run the following command, specifying any of the environment variables below (or don't and just use the defaults):
 #     curl https://raw.githubusercontent.com/EnigmaCurry/arch-quickstart/master/base_install.sh > base_install && INSTALL_DEVICE=/dev/sda HOSTNAME=lappy bash base_install.sh
 
-# Default install parameters, any of these variables can be set
-# outside the script to specify something else:
+# Default install parameters. Change them here in this script, or pass them in as environment variables:
 [ -z "$INSTALL_DEVICE" ] && INSTALL_DEVICE=/dev/sda
 [ -z "$LVM_NAME" ] && LVM_NAME=arch
 [ -z "$ROOT_SIZE" ] && ROOT_SIZE=30G
