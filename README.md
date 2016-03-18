@@ -11,7 +11,7 @@ What is here is still pretty custom fit for my needs, but I hope to continue to 
  * Run the following commands to install:
  
         # Download the script:
-        curl https://git.io/va6Ei -o base_install.sh 
+        curl -L https://git.io/va6Ei -o base_install.sh 
 
         # Open up base_install.sh in nano/vi and edit the install parameters near the top of the file.
         
@@ -23,4 +23,4 @@ What is here is still pretty custom fit for my needs, but I hope to continue to 
         
  * Or, do it all in one line. You can specify any of the parameters in the shell environment:
  
-        curl https://git.io/va6Ei | INSTALL_DEVICE=/dev/vda USER_NAME=ryan USER_PASSWD=pass HOSTNAME=lappy bash
+        curl -L https://git.io/va6Ei | INSTALL_DEVICE=/dev/vda USER_NAME=ryan USER_PASSWD=pass HOSTNAME=lappy bash
