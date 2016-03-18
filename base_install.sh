@@ -178,6 +178,9 @@ cat <<EOF | arch-chroot /mnt /bin/bash
   grub-mkconfig -o /boot/grub/grub.cfg
   grub-install $INSTALL_DEVICE
   chmod -R g-rwx,o-rwx /boot
+
+  pacman -S --noconfirm git salt-zmq
+  git clone https://github.com/EnigmaCurry/arch-quickstart.git /root/arch-quickstart
 EOF
 
 cat <<EOF > /mnt/root/arch-quickstart/pillar/users/init.sls
@@ -193,8 +196,6 @@ users:
 EOF
 
 cat <<EOF | arch-chroot /mnt /bin/bash
-  pacman -S --noconfirm git salt-zmq
-  git clone https://github.com/EnigmaCurry/arch-quickstart.git /root/arch-quickstart
   cd /root/arch-quickstart
   ./user_bootstrap.sh
   echo $USER_NAME:$USER_PASSWD | chpasswd
