@@ -2,12 +2,14 @@
 {{group}}-group:
   group.present:
     - gid: {{gid}}
+    - name: {{group}}
 {% endfor %}
 
 
 {% for name, user in pillar.get('users', {}).items() %}
-{{name}}-user:
+{{name}}:
   user.present:
+    - name: {{user}}
     - uid: {{user.uid}}
     - gid: {{user.gid}}
     - groups:
