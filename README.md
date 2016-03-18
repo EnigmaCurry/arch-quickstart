@@ -1,6 +1,6 @@
 # arch-quickstart
 
-This is not *the Arch Way* of installing Arch Linux, but it's my way.
+This is not *The Arch Way* of installing Arch Linux, but it's my way.
 
 What is here is still pretty custom fit for my needs, but I hope to continue to work on this to make it more generically reusable for other people.
 
