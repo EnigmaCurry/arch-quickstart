@@ -16,6 +16,9 @@ Xorg:
         {% if gpu['vendor'] == 'nvidia' %}
       - xf86-video-nouveau
         {% endif %}
+        {% if gpu['vendor'] == 'intel' %}
+      - xf86-video-intel
+        {% endif %}
       {% endfor %}
     - require:
       - cmd: xorg-apps

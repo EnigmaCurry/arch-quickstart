@@ -37,8 +37,9 @@
 [ -z "$LANG" ] && LANG=en_US.UTF-8
 [ -z "$LOCALE" ] && LOCALE=America/New_York
 [ -z "$HOSTNAME" ] && HOSTNAME=arch
-[ -z "$ROOT_PASSWD" ] && ROOT_PASSWD=root
 [ -z "$ARCH_MIRROR" ] && ARCH_MIRROR='http://kernel-mirror:9080/archlinux/$repo/os/$arch'
+
+echo
 
 # Fail fast if we get into trouble:
 set -e
@@ -81,8 +82,31 @@ if [ $BLANK_PARTITION_TABLE -eq 0 ]
 then
     echo "# Your INSTALL_DEVICE already has a partition table"
     echo "# In order to use this tool, the INSTALL_DEVICE must be blank"
-    echo "# (eg. 'dd if=/dev/zero of=$INSTALL_DEVICE bs=100M count=1', reboot, and try again)"
+    echo "You can wipe it with the following command (careful!): "
+    echo "  dd if=/dev/zero of=$INSTALL_DEVICE bs=100M count=1"
+    echo "Afterward you need to reboot and run this install script again"
     exit 1
+fi
+
+if [ -z "$ROOT_PASSWD" ]
+then
+    echo "Root password was not specified in environment"
+    while :
+    do
+	stty -echo
+	read -p "Enter a password for the root user account:" ROOT_PASSWD
+	echo
+	read -p "verify password:" VERIFY_ROOT_PASSWD
+	echo
+	stty echo
+	if [ $ROOT_PASSWD == $VERIFY_ROOT_PASSWD ]
+	then
+	    break
+	else
+	    echo
+	    echo "Passwords did not match, try again"
+	fi
+    done
 fi
 
 echo "### Set system clock"
@@ -145,10 +169,12 @@ cat <<EOF | arch-chroot /mnt /bin/bash
   grub-mkconfig -o /boot/grub/grub.cfg
   grub-install $INSTALL_DEVICE
   chmod -R g-rwx,o-rwx /boot
-EOF
 
-echo "Install finished. Reboot to boot into Arch."
-if [ $ROOT_PASSWD == 'root' ]; then
-    echo "Remember to change the root password. Default password is '$ROOT_PASSWD'"
-fi
+  pacman -S --noconfirm git salt-zmq
+  git clone https://github.com/EnigmaCurry/arch-quickstart.git /root/arch-quickstart
+  cd /root/arch-quickstart
+  ./user_bootstrap.sh
+  echo ryan:$ROOT_PASSWD | chpasswd
+
+EOF
 
