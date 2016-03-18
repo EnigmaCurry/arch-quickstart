@@ -44,7 +44,7 @@
 # mirror is reachable, otherwise it will just use the default Arch mirrorlist.
 [ -z "$ARCH_MIRROR" ] && ARCH_MIRROR='http://kernel-mirror:9080/archlinux/$repo/os/$arch'
 
-# The following are asked interactively by default, but you can comment these out or set in the environment too:
+# Username and password are asked interactively by default, but you can comment these out or set in the environment too:
 #[ -z "$USER_NAME" ] && USER_NAME=ryan
 #[ -z "$USER_PASSWD" ] && USER_PASSWD=ryan
 
