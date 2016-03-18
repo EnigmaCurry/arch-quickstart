@@ -39,6 +39,8 @@
 [ -z "$LANG" ] && LANG=en_US.UTF-8
 [ -z "$LOCALE" ] && LOCALE=America/New_York
 [ -z "$HOSTNAME" ] && HOSTNAME=arch
+# This is my own personal Arch mirror, using https://github.com/EnigmaCurry/lazy-distro-mirrors
+# Just comment out or setup your own:
 [ -z "$ARCH_MIRROR" ] && ARCH_MIRROR='http://kernel-mirror:9080/archlinux/$repo/os/$arch'
 
 # The following are asked interactively by default, but can be set in the environment too:
