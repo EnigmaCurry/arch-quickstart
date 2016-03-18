@@ -28,7 +28,7 @@
 #  2) Boot the regular Arch Install ISO from https://www.archlinux.org/download/
 #  3) Ensure you have a network connection. Wired should come up automatically. For wifi use 'wifi-menu' command.
 #  4) Run the following command, specifying any of the environment variables below (or don't and just use the defaults):
-#     curl https://git.io/va6Ei > base_install && INSTALL_DEVICE=/dev/sda HOSTNAME=lappy bash base_install.sh
+#     curl -L https://git.io/va6Ei > base_install && INSTALL_DEVICE=/dev/sda HOSTNAME=lappy bash base_install.sh
 
 # Default install parameters. Change them here in this script, or pass them in as environment variables:
 [ -z "$INSTALL_DEVICE" ] && INSTALL_DEVICE=/dev/sda
