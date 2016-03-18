@@ -34,17 +34,19 @@
 [ -z "$INSTALL_DEVICE" ] && INSTALL_DEVICE=/dev/sda
 [ -z "$LVM_NAME" ] && LVM_NAME=arch
 [ -z "$ROOT_SIZE" ] && ROOT_SIZE=30G
-[ -z "$SWAP_SIZE" ] && SWAP_SIZE=8G # 0 will disable swap
+[ -z "$SWAP_SIZE" ] && SWAP_SIZE=8G # 0 will disable swap creation
 [ -z "$LANG" ] && LANG=en_US.UTF-8
 [ -z "$LOCALE" ] && LOCALE=America/New_York
 [ -z "$HOSTNAME" ] && HOSTNAME=arch
+[ -z "$ARCH_QUICKSTART_REPO" ] && ARCH_QUICKSTART_REPO="https://github.com/EnigmaCurry/arch-quickstart.git"
 # This is my own personal Arch mirror, using https://github.com/EnigmaCurry/lazy-distro-mirrors
-# Just comment out or setup your own:
+# You can comment it out, provide your own, or just leave as-is. This script will test to make sure the
+# mirror is reachable, otherwise it will just use the default Arch mirrorlist.
 [ -z "$ARCH_MIRROR" ] && ARCH_MIRROR='http://kernel-mirror:9080/archlinux/$repo/os/$arch'
 
-# The following are asked interactively by default, but can be set in the environment too:
-# USER_NAME 
-# USER_PASSWORD
+# The following are asked interactively by default, but you can comment these out or set in the environment too:
+#[ -z "$USER_NAME" ] && USER_NAME=ryan
+#[ -z "$USER_PASSWD" ] && USER_PASSWD=ryan
 
 echo
 
@@ -83,15 +85,15 @@ fi
 
 # Ensure the install device is empty before continuing:
 device_exists $INSTALL_DEVICE
-echo "### Check install device is blank"
+echo "### Checking to ensure install device is blank"
 set +e; BLANK_PARTITION_TABLE=$(parted -s $INSTALL_DEVICE print 2>&1 | grep -ic "Partition Table: unknown"); set -e
 if [ $BLANK_PARTITION_TABLE -eq 0 ]
 then
-    echo "# Your INSTALL_DEVICE already has a partition table"
-    echo "# In order to use this tool, the INSTALL_DEVICE must be blank"
+    echo "# Your INSTALL_DEVICE already has a partition table."
+    echo "# In order to use this tool, the INSTALL_DEVICE must be blank."
     echo "You can wipe it with the following command (careful!): "
     echo "  dd if=/dev/zero of=$INSTALL_DEVICE bs=100M count=1"
-    echo "Afterward you need to reboot and run this install script again"
+    echo "Afterward you need to reboot and run this install script again."
     exit 1
 fi
 
@@ -155,7 +157,13 @@ exe mkfs.ext4 $(get_lvm_device home)
 if [ -n "$ARCH_MIRROR" ]
 then
     echo "### Set custom Arch mirror"
-    echo "Server = $ARCH_MIRROR" > /etc/pacman.d/mirrorlist
+    # Test that the mirror is reachable.
+    # This returns 404, but that at least means the server is there.
+    curl -I $ARCH_MIRROR > /dev/null 2>&1
+    if [ $? == 0 ]
+    then
+	echo "Server = $ARCH_MIRROR" > /etc/pacman.d/mirrorlist
+    fi
 fi
 
 echo "### Mount filesystems:"
@@ -183,7 +191,7 @@ cat <<EOF | arch-chroot /mnt /bin/bash
   chmod -R g-rwx,o-rwx /boot
 
   pacman -S --noconfirm git salt-zmq
-  git clone https://github.com/EnigmaCurry/arch-quickstart.git /root/arch-quickstart
+  git clone $ARCH_QUICKSTART_REPO /root/arch-quickstart
 EOF
 
 cat <<EOF > /mnt/root/arch-quickstart/pillar/users/init.sls
@@ -203,3 +211,6 @@ cat <<EOF | arch-chroot /mnt /bin/bash
   ./user_bootstrap.sh
   echo $USER_NAME:$USER_PASSWD | chpasswd
 EOF
+
+echo
+echo "Install finished. Reboot now and remove the installation media."
