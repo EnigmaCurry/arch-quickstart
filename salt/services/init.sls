@@ -1,7 +1,3 @@
-lightdm:
-  service:
-    - enabled
-  require:
-    - pkg.installed: lightdm
-
-
+systemctl enable lightdm:
+  cmd:
+    - run
