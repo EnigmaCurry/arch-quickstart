@@ -23,4 +23,4 @@ What is here is still pretty custom fit for my needs, but I hope to continue to 
         
  * Or, do it all in one line. You can specify any of the parameters in the shell environment:
  
-        curl https://git.io/va6Ei | INSTALL_DEVICE=/dev/vda USER_NAME=ryan USER_PASSWD=temppass HOSTNAME=lappy bash
+        curl https://git.io/va6Ei | INSTALL_DEVICE=/dev/vda USER_NAME=ryan USER_PASSWD=pass HOSTNAME=lappy bash
