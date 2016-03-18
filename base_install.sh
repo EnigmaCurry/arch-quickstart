@@ -19,7 +19,9 @@
 ## DON'T RUN THIS IF YOU DON'T WANT TO WIPE YOUR DRIVE:
 ##
 ##   dd if=/dev/zero of=/dev/sda bs=100M count=1
-##
+## 
+## You will need to reboot again after running that, otherwise parted
+## will still think the partition table exists.
 
 # How to use this script:
 #  1) Ensure your drive is blank (see above)
