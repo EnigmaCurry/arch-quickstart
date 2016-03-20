@@ -8,19 +8,15 @@ What is here is still pretty custom fit for my needs, but I hope to continue to 
 
  * Boot the computer you will install to with the [Arch Linux installation media](https://www.archlinux.org/download/)
  * Make sure the network comes up. If you're wired, it should come up via DHCP automatically. If you're using wifi, run wifi-menu to get online.
- * Run the following commands to install:
- 
-        # Download the script:
+ * Run the following command to install, specifying the most common options:
+
+        INSTALL_DEVICE=/dev/vda USER_NAME=ryan USER_PASSWD=pass HOSTNAME=lappy bash <(curl -L https://git.io/va6Ei)
+
+ * Alternatively, you can take a bit more care and download the script, edit the script in nano,vim and edit the options near the top of the script:
+
         curl -L https://git.io/va6Ei -o base_install.sh 
 
-        # Open up base_install.sh in nano/vi and edit the install parameters near the top of the file.
+        nano base_install.sh
         
-        # Run the script:
         bash base_install.sh
         
-        # You'll be prompted for a username and password for your new user account
-        # After that, sit back and let it run. Reboot the computer when done.
-        
- * Or, do it all in one line. You can specify any of the parameters in the shell environment:
- 
-        curl -L https://git.io/va6Ei | INSTALL_DEVICE=/dev/vda USER_NAME=ryan USER_PASSWD=pass HOSTNAME=lappy bash
