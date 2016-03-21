@@ -45,8 +45,8 @@
 [ -z "$ARCH_MIRROR" ] && ARCH_MIRROR='http://kernel-mirror:9080/archlinux/$repo/os/$arch'
 
 # Username and password are asked interactively by default, but you can comment these out or set in the environment too:
-#[ -z "$USER_NAME" ] && USER_NAME=ryan
-#[ -z "$USER_PASSWD" ] && USER_PASSWD=ryan
+#[ -z "$USER" ] && USER=ryan
+#[ -z "$PASS" ] && PASS=ryan
 
 echo
 
@@ -97,24 +97,24 @@ then
     exit 1
 fi
 
-if [ -z "$USER_NAME" ]
+if [ -z "$USER" ]
 then
     echo "Username was not specified in environment"
-    read -p "Enter the username to create:" USER_NAME
+    read -p "Enter the username to create:" USER
 fi
 
-if [ -z "$USER_PASSWD" ]
+if [ -z "$PASS" ]
 then
     echo "User password was not specified in environment"
     while :
     do
 	stty -echo
-	read -p "Enter a password for the $USER_NAME account:" USER_PASSWD
+	read -p "Enter a password for the $USER account:" PASS
 	echo
-	read -p "Verify password:" VERIFY_USER_PASSWD
+	read -p "Verify password:" VERIFY_PASS
 	echo
 	stty echo
-	if [ $USER_PASSWD == $VERIFY_USER_PASSWD ]
+	if [ $PASS == $VERIFY_PASS ]
 	then
 	    break
 	else
@@ -196,10 +196,10 @@ EOF
 
 cat <<EOF > /mnt/root/arch-quickstart/pillar/users/init.sls
 groups:
-  $USER_NAME: 1000
+  $USER: 1000
 
 users:
-  $USER_NAME:
+  $USER:
    uid: 1000
    gid: 1000
    groups:
@@ -209,7 +209,7 @@ EOF
 cat <<EOF | arch-chroot /mnt /bin/bash
   cd /root/arch-quickstart
   ./user_bootstrap.sh
-  echo $USER_NAME:$USER_PASSWD | chpasswd
+  echo $USER:$PASS | chpasswd
 EOF
 
 echo

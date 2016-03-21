@@ -10,7 +10,7 @@ What is here is still pretty custom fit for my needs, but I hope to continue to 
  * Make sure the network comes up. If you're wired, it should come up via DHCP automatically. If you're using wifi, run wifi-menu to get online.
  * Run the following command to install, specifying the most common options:
 
-        INSTALL_DEVICE=/dev/vda USER_NAME=ryan USER_PASSWD=pass HOSTNAME=lappy bash <(curl -L https://git.io/va6Ei)
+        INSTALL_DEVICE=/dev/vda USER=ryan PASS=pass HOSTNAME=lappy bash <(curl -L https://git.io/va6Ei)
 
  * Alternatively, you can take a bit more care and download the script, edit the script in nano,vim and edit the options near the top of the script:
 
