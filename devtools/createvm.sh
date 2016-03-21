@@ -67,7 +67,7 @@ md5sum airootfs.sfs > airootfs.md5
 EOF
 
 perl -pi -e 's/archisolabel=ARCH_[0-9]*/archisolabel=ARCH_QUICKSTART/' $REMASTER/loader/entries/archiso-x86_64.conf $REMASTER/arch/boot/syslinux/archiso_sys32.cfg $REMASTER/arch/boot/syslinux/archiso_sys64.cfg
-echo "TIMEOUT 1" >> $REMASTER/arch/boot/syslinux/archiso_head.cfg
+echo "TIMEOUT 5" >> $REMASTER/arch/boot/syslinux/archiso_head.cfg
 
 
 cd $REMASTER
@@ -108,6 +108,7 @@ exe systemctl start sshd
 echo "root:root" | chpasswd
 
 echo "SSH server started with root password 'root'"
+rm ~/.zshrc.local
 # Fetch this url to signal to the parent script we're done:
 curl http://$HOST_IP:$FREE_PORT2
 EOF

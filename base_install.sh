@@ -53,8 +53,9 @@ echo
 # Fail fast if we get into trouble:
 set -e
 
-# Function to display commands
+# Functions to display commands
 exe() { echo "\$ $@" ; "$@" ; }
+exe_true() { echo "\$ $@" ; "$@" || true ; }
 
 # Function to ensure a device name exists
 device_exists() {
