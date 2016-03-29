@@ -207,7 +207,7 @@ EOF
 ## Done with base_install
 if [ $TARGET == "full_install" ]; then
     echo "base_install finished. Continuing with saltstack install."
-else if
+else
     echo "Arch base installation finished. Reboot now and remove the installation media."
     exit 0
 fi
