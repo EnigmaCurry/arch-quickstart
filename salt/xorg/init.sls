@@ -5,9 +5,6 @@ Xorg:
       - xorg-server
       - xorg-server-utils
       - xorg-xinit
-      - xorg-xrdb
-      - xorg-xkill
-      - xorg-xwininfo
       - arandr
       - xdotool
       - lightdm
@@ -20,17 +17,48 @@ Xorg:
       - xf86-video-intel
         {% endif %}
       {% endfor %}
-    - require:
-      - cmd: xorg-apps
-
-## Workaround for xorg-apps meta-package
-## Salt doesn't like Arch based meta packages :(
-## See https://github.com/saltstack/salt/issues/15749 
-## I think this means that Salt can't uninstall these?
-xorg-apps:
-  cmd:
-    - run
-    - name: pacman -S --needed --noconfirm xorg-apps
-
-
+      ## Salt doesn't like Arch based meta packages like xorg-apps :(
+      ## See https://github.com/saltstack/salt/issues/15749 
+      ## So we'll just list all of xorg-apps here as a workaround:
+      - xorg-bdftopcf
+      - xorg-iceauth
+      - xorg-luit
+      - xorg-mkfontdir
+      - xorg-mkfontscale
+      - xorg-sessreg
+      - xorg-setxkbmap
+      - xorg-smproxy
+      - xorg-x11perf
+      - xorg-xauth
+      - xorg-xbacklight
+      - xorg-xcmsdb
+      - xorg-xcursorgen
+      - xorg-xdpyinfo
+      - xorg-xdriinfo
+      - xorg-xev
+      - xorg-xgamma
+      - xorg-xhost
+      - xorg-xinput
+      - xorg-xkbcomp
+      - xorg-xkbevd
+      - xorg-xkbutils
+      - xorg-xkill
+      - xorg-xlsatoms
+      - xorg-xlsclients
+      - xorg-xmodmap
+      - xorg-xpr
+      - xorg-xprop
+      - xorg-xrandr
+      - xorg-xrdb
+      - xorg-xrefresh
+      - xorg-xset
+      - xorg-xsetroot
+      - xorg-xvinfo
+      - xorg-xwd
+      - xorg-xwininfo
+      - xorg-xwud
+  service.running:
+    - enable: true
+    - names:
+      - lightdm
 

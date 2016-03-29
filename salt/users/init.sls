@@ -1,3 +1,4 @@
+# Create all groups defined in pillar:
 {% for group, gid in pillar.get('groups', {}).items() %}
 {{group}}-group:
   group.present:
@@ -5,7 +6,7 @@
     - name: {{group}}
 {% endfor %}
 
-
+# Create all users defined in pillar:
 {% for name, user in pillar.get('users', {}).items() %}
 {{name}}:
   user.present:
