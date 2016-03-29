@@ -57,7 +57,9 @@ Xorg:
       - xorg-xwd
       - xorg-xwininfo
       - xorg-xwud
-  service.enabled:
-    - names:
-      - lightdm
 
+# Salt doesn't like to 'systemctl enable' in the archiso environment
+# Enable lightdm by symlink instead:
+/etc/systemd/system/display-manager.service:
+  file.symlink:
+    - target: /usr/lib/systemd/system/lightdm.service
