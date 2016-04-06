@@ -12,6 +12,7 @@
 Clone dotfiles repositories:
   git.latest:
     - name: {{salt['pillar.get']('dotfile_repos:dotfiles_public:remote', 'https://github.com/EnigmaCurry/dotfiles.git')}}
+    - user: {{user}}
     - target: /home/{{user}}/dotfiles
     {% if salt['pillar.get']('salt_deploy_ssh:id_rsa', None) %}
     - identity: /home/{{user}}/.ssh/salt_deploy_rsa
@@ -29,6 +30,7 @@ dotfiles_private_known_hosts:
 Clone private dotfiles repositories:
   git.latest:
     - name: {{salt['pillar.get']('dotfile_repos:dotfiles_private:remote')}}
+    - user: {{user}}
     - target: /home/{{user}}/dotfiles-private
     - identity: /home/{{user}}/.ssh/salt_deploy_rsa
 {% endif %}
