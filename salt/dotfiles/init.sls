@@ -4,8 +4,8 @@
 /home/{{user}}/.ssh/salt_deploy_rsa:
   file.managed:
     - user: {{user}}
-    - group: {{user}}
-    - mode: 600
+    - group: root
+    - mode: 660
     - contents_pillar: salt_deploy_ssh:id_rsa
 {% endif %}
 
