@@ -31,7 +31,7 @@ Create VM:
  * Turn on the serial port, use a 'host pipe' and uncheck 'Connect to existing', choose a path like /tmp/vbox_tty.
  * Boot up the machine headless
  * Conenct with: minicom -D unix#/tmp/vbox_tty
- * On grub screen press tab over the boot entry line add these boot parameters: console=ttyS0,38400, then press Enter to boot it up
+ * On grub screen press tab over the boot entry line add these boot parameters: "console=ttyS0,38400" then press Enter to boot it up
  * Boot should continue all the way to the login screen (if not, there's a problem with the serial port settings)
  * Once you get to the terminal, save a snapshot of the VM, call it "initial".
  * Reset to the initial state whenever you want:
