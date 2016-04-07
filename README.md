@@ -24,14 +24,18 @@ What is here is still pretty custom fit for my needs, but I hope to continue to 
 
 ### Create Arch testbed VM
 
-This script was developed with the aid of VirtualBox. I create a VM called "Arch testbed" that is just the Installer CD booted up, with static networking setup and ssh turned on. Taking a snapshot of this state allows me to test arch-quickstart over and over from a clean state. There's [a script in /devtools](https://github.com/EnigmaCurry/arch-quickstart/tree/master/devtools/createvm.sh) that will automatically create this VM for you, but you can just as easily do it by hand. It's a one-time job, once you have the VM and the snapshot saved, you just reuse that over and over in a dev loop:
+This script was developed with the aid of VirtualBox. Using it's snapshot feature makes it easy to test this script over and over from a fresh state.
 
-
-	    # Do this one time to create the VM:
-        ./devtools/createvm.sh
+Create VM:
+ * Call it 'arch-testbed'
+ * Turn on the serial port, use a 'host pipe' and uncheck 'Connect to existing', choose a path like /tmp/vbox_tty.
+ * Boot up the machine headless
+ * Conenct with: minicom -D unix#/tmp/vbox_tty
+ * On grub screen press tab over the boot entry line add these boot parameters: console=ttyS0,38400, then press Enter to boot it up
+ * Boot should continue all the way to the login screen (if not, there's a problem with the serial port settings)
+ * Once you get to the terminal, save a snapshot of the VM, call it "initial".
+ * Reset to the initial state whenever you want:
+ 
+        VBoxManage controlvm "arch-testbed" poweroff ; VBoxManage snapshot "arch-testbed" restore "initial" && VBoxManage startvm "arch-testbed" --type headless 
 		
-	    # Do this as many times as you want to test your arch-quickstart modifications inside the VM.
-		# Change the IP address to whatever your VM hands out via DHCP (shouldn't change unless you recreate the VM):
-		
-		VBoxManage controlvm "Arch-testbed" poweroff ; VBoxManage snapshot "Arch-testbed" restore "ssh" && VBoxManage startvm "Arch-testbed" --type headless && sleep 5 && sshpass -p "root" ssh root@192.168.56.101 "USER=ryan PASS=ryan HOSTNAME=vbox bash <(curl -L http://git.io/va6Ei)"
-
+ * The serial port connection is super fast on VM reset, and is much more productive than the SSH instructions that existed here before.
