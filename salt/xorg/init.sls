@@ -57,6 +57,3 @@ Xorg:
       - xorg-xwd
       - xorg-xwininfo
       - xorg-xwud
-  service.enabled:
-    - names:
-      - lightdm
