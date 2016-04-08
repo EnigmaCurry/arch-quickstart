@@ -6,4 +6,3 @@ virtualbox-guest:
       - virtualbox-guest-dkms
       - virtualbox-guest-utils
 {% endif %}
-   
