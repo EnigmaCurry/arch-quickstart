@@ -1,2 +1,3 @@
 BASEDIR=$(dirname "$0")
-salt-call -c $BASEDIR/salt/config --local --file-root=$BASEDIR/salt --pillar-root=$BASEDIR/pillar state.highstate
+salt-call -c $BASEDIR/salt/config --local --file-root=$BASEDIR/salt --pillar-root=$BASEDIR/pillar state.highstate 2>&1 | tee ~/install.log
+
