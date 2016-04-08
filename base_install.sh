@@ -235,9 +235,13 @@ users:
 EOF
 fi    
 
+# Start the new arch install in a system container.
+systemd-nspawn -M arch -b -D /mnt &
+# Run saltstack tasks inside the container.
+# Without this things like enabling services will fail.
+machinectl shell arch /root/arch-quickstart/user_bootstrap.sh
+
 cat <<EOF | arch-chroot /mnt /bin/bash
-  cd /root/arch-quickstart
-  ./user_bootstrap.sh
   echo $USER:$PASS | chpasswd
 EOF
 
