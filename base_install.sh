@@ -242,7 +242,7 @@ dtach -n /tmp/arch-dtach systemd-nspawn -M arch -b -D /mnt
 sleep 5
 # Run saltstack tasks inside the container.
 # Without this things like enabling services will fail.
-machinectl shell arch /root/arch-quickstart/user_bootstrap.sh
+machinectl shell arch /bin/bash /root/arch-quickstart/user_bootstrap.sh
 
 cat <<EOF | arch-chroot /mnt /bin/bash
   echo $USER:$PASS | chpasswd

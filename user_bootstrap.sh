@@ -1,1 +1,2 @@
-salt-call -c ./salt/config --local --file-root=./salt --pillar-root=./pillar state.highstate
+BASEDIR=$(dirname "$0")
+salt-call -c $BASEDIR/salt/config --local --file-root=$BASEDIR/salt --pillar-root=$BASEDIR/pillar state.highstate
