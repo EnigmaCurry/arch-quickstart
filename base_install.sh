@@ -236,7 +236,10 @@ EOF
 fi    
 
 # Start the new arch install in a system container.
-systemd-nspawn -M arch -b -D /mnt &
+pacman -Sy
+pacman -S --noconfirm dtach
+dtach -n /tmp/arch-dtach systemd-nspawn -M arch -b -D /mnt
+sleep 5
 # Run saltstack tasks inside the container.
 # Without this things like enabling services will fail.
 machinectl shell arch /root/arch-quickstart/user_bootstrap.sh
