@@ -5,7 +5,7 @@ base:
     - names:
       - linux-headers
       - openssh
+  service.enabled:
+    - names:
+      - sshd
 
-/etc/systemd/system/multi-user.target.wants/sshd.service:
-  file.symlink:
-    - target: /usr/lib/systemd/system/sshd.service
