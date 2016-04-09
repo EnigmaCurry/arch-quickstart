@@ -1,5 +1,6 @@
 ### ###################################################################
-### Pillar data.
+### Example Pillar data.
+### Should be renamed data.sls to actually use this.
 
 ### For those of you not familiar with saltstack, this is the data
 ### that is considered private and custom to your particular
