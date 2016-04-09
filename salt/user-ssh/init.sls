@@ -3,6 +3,12 @@
 /home/{{user}}/.ssh:
   file.directory:
     - user: {{user}}
+    - group: {{user}}
+    - mode: 700
+
+/root/.ssh:
+  file.directory:
+    - user: root
     - group: root
-    - mode: 660
+    - mode: 700
 

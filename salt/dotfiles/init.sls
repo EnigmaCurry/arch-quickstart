@@ -1,22 +1,32 @@
 {% set user=pillar['user'] %}
 
 {% if salt['pillar.get']('salt_deploy_ssh:id_rsa', None) %}
-/home/{{user}}/.ssh/salt_deploy_rsa:
+/root/.ssh/salt_deploy_rsa:
   file.managed:
-    - user: {{user}}
+    - user: root
     - group: root
-    - mode: 660
+    - mode: 600
     - contents_pillar: salt_deploy_ssh:id_rsa
 {% endif %}
 
 Clone dotfiles repositories:
   git.latest:
     - name: {{salt['pillar.get']('dotfile_repos:dotfiles_public:remote', 'https://github.com/EnigmaCurry/dotfiles.git')}}
-    - user: {{user}}
+    - user: root
     - target: /home/{{user}}/dotfiles
     {% if salt['pillar.get']('salt_deploy_ssh:id_rsa', None) %}
-    - identity: /home/{{user}}/.ssh/salt_deploy_rsa
+    - identity: /root/.ssh/salt_deploy_rsa
     {% endif %}
+
+  file.directory:
+    - name: /home/{{user}}/dotfiles
+    - user: {{user}}
+    - group: {{user}}
+    - mode: 755
+    - recurse:
+      - user
+      - group
+
 
 {% if salt['pillar.get']('dotfile_repos:dotfiles_private:remote', None) %}
 dotfiles_private_known_hosts:
@@ -30,9 +40,18 @@ dotfiles_private_known_hosts:
 Clone private dotfiles repositories:
   git.latest:
     - name: {{salt['pillar.get']('dotfile_repos:dotfiles_private:remote')}}
-    - user: {{user}}
+    - user: root
     - target: /home/{{user}}/dotfiles-private
-    - identity: /home/{{user}}/.ssh/salt_deploy_rsa
+    - identity: /root/.ssh/salt_deploy_rsa
+
+  file.directory:
+    - name: /home/{{user}}/dotfiles-private
+    - user: {{user}}
+    - group: {{user}}
+    - mode: 700
+    - recurse:
+      - user
+      - group
 {% endif %}
 
 user_apps:
