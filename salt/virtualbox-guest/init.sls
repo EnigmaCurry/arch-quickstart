@@ -1,4 +1,4 @@
-{% if grains['virtual'] == 'oracle' %}
+{% if grains['virtual'] == 'oracle' or environ.get('VIRTUAL',None) == 'oracle' %}
 virtualbox-guest:
   pkg:
     - latest
