@@ -253,7 +253,7 @@ sleep 5
 # Run saltstack tasks inside the container.  Without this things like
 # enabling services will fail because the archiso environment does not
 # have a fully working systemd for the new system.
-machinectl shell arch /bin/bash VIRTUAL=$VIRTUAL /root/arch-quickstart/user_bootstrap.sh
+machinectl shell arch /bin/bash -c "(export VIRTUAL=$VIRTUAL ; /root/arch-quickstart/user_bootstrap.sh)"
 
 cat <<EOF | arch-chroot /mnt /bin/bash
   echo $USER:$PASS | chpasswd
