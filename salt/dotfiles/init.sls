@@ -59,10 +59,12 @@ Clone private dotfiles repositories:
     - name: /home/{{user}}/dotfiles-private
     - user: {{user}}
     - group: {{user}}
-    - mode: 700
+    - dir_mode: 700
+    - file_mode: 600
     - recurse:
       - user
       - group
+      - mode
 
 Stow private dotfiles:
   cmd.run:
