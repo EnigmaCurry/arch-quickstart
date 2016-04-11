@@ -40,7 +40,7 @@
 [ -z "$SWAP_SIZE" ] && SWAP_SIZE=8G # 0 will disable swap creation
 [ -z "$LANG" ] && LANG=en_US.UTF-8
 [ -z "$LOCALE" ] && LOCALE=America/New_York
-[ -z "$HOSTNAME" ] && HOSTNAME=arch
+[ -z "$HOST" ] && HOST=arch
 [ -z "$ARCH_QUICKSTART_REPO" ] && ARCH_QUICKSTART_REPO="https://github.com/EnigmaCurry/arch-quickstart.git"
 # Target to run:
 #  base_install - Install just the base Arch Linux
@@ -193,7 +193,7 @@ cat <<EOF | arch-chroot /mnt /bin/bash
   echo LANG=$LANG > /etc/locale.conf
   ln -s /usr/share/zoneinfo/$LOCALE /etc/localtime
   hwclock --systohc --utc
-  echo $HOSTNAME > /etc/hostname
+  echo $HOST > /etc/hostname
   systemctl enable dhcpcd.service
   sed -i 's/^HOOKS=.*/HOOKS="base udev autodetect modconf block keyboard lvm2 filesystems fsck"/' /etc/mkinitcpio.conf
   mkinitcpio -p linux
