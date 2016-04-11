@@ -60,3 +60,14 @@ Xorg:
   service.enabled:
     - names:
       - lightdm
+
+
+Turn caps-lock into a super key:
+  file.managed:
+    - name: /etc/X11/xorg.conf.d/90-custom-kbd.conf
+    - contents: |
+          Section "InputClass"
+              Identifier "keyboard defaults"
+              MatchIsKeyboard "on"
+              Option "XKbOptions" "caps:super"
+          EndSection
