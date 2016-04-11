@@ -237,7 +237,7 @@ fi
 
 # Figure out if we are running in a virtualization layer like VirtualBox.
 # Salt won't have the correct virtual grain once we are running in systemd-nspawn
-if [ -z 'VIRTUAL' ]; then
+if [ -z "$VIRTUAL" ]; then
     if lspci | grep -q "InnoTek.*VirtualBox"; then
 	VIRTUAL='oracle'
     else
