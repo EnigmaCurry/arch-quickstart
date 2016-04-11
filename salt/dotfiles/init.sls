@@ -1,5 +1,11 @@
 {% set user=pillar['user'] %}
 
+user_apps:
+  pkg:
+    - latest
+    - names:
+      - stow
+
 {% if salt['pillar.get']('salt_deploy_ssh:id_rsa', None) %}
 /root/.ssh/salt_deploy_rsa:
   file.managed:
@@ -27,6 +33,11 @@ Clone dotfiles repositories:
       - user
       - group
 
+Stow dotfiles:
+  cmd.run:
+    - name: stow -v -t /home/{{user}} *
+    - cwd: /home/{{user}}/dotfiles
+
 
 {% if salt['pillar.get']('dotfile_repos:dotfiles_private:remote', None) %}
 dotfiles_private_known_hosts:
@@ -52,11 +63,10 @@ Clone private dotfiles repositories:
     - recurse:
       - user
       - group
+
+Stow private dotfiles:
+  cmd.run:
+    - name: stow -v -t /home/{{user}} *
+    - cwd: /home/{{user}}/dotfiles-private
+
 {% endif %}
-
-user_apps:
-  pkg:
-    - latest
-    - names:
-      - stow
-
