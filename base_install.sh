@@ -47,11 +47,8 @@
 #  full_install - Install base Arch and then invoke salt files
 [ -z "$TARGET" ] && TARGET="full_install"
 
-# This is my own personal Arch mirror, using https://github.com/EnigmaCurry/lazy-distro-mirrors
-# You can comment it out, provide your own, or just leave as-is. This
-# script will test to make sure the mirror is reachable, otherwise it
-# will just use the default Arch mirrorlist.
-[ -z "$ARCH_MIRROR" ] && ARCH_MIRROR='http://kernel-mirror:9080/archlinux/$repo/os/$arch'
+# Set a custom arch mirror to replace the default list (use '' for default)
+[ -z "$ARCH_MIRROR" ] && ARCH_MIRROR=''
 
 # Username and password are asked interactively by default, but you
 # can comment these out or set in the environment too:
@@ -169,13 +166,7 @@ exe mkfs.ext4 $(get_lvm_device home)
 
 if [ -n "$ARCH_MIRROR" ]; then
     echo "### Set custom Arch mirror"
-    # Test that the mirror is reachable.
-    # This returns 404, but that at least means the server is there.
-    curl -I $ARCH_MIRROR > /dev/null 2>&1
-    if [ $? == 0 ]
-    then
-	echo "Server = $ARCH_MIRROR" > /etc/pacman.d/mirrorlist
-    fi
+    echo "Server = $ARCH_MIRROR" > /etc/pacman.d/mirrorlist
 fi
 
 echo "### Mount filesystems:"
