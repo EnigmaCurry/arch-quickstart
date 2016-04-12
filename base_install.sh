@@ -232,12 +232,12 @@ cat <<EOF >> /mnt/root/arch-quickstart/salt/config/minion
 
 file_roots:
   base:
-    - /home/$HOME/git/dotfiles-private/_salt/$HOST/states
+    - /home/$USER/git/dotfiles-private/_salt/$HOST/states
     - /root/arch-quickstart/salt
 
 pillar_roots:
   base:
-    - /home/$HOME/git/dotfiles-private/_salt/$HOST/pillar
+    - /home/$USER/git/dotfiles-private/_salt/$HOST/pillar
     - /root/arch-quickstart/pillar
 EOF
 
