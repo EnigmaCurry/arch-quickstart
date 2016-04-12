@@ -6,6 +6,12 @@ Apps for dotfiles management:
     - names:
       - stow
 
+/home/{{user}}/.config:
+  file.directory:
+    - user: {{user}}
+    - group: {{user}}
+    - mode: 750
+
 {% if salt['pillar.get']('salt_deploy_ssh:id_rsa', None) %}
 /root/.ssh/salt_deploy_rsa:
   file.managed:
