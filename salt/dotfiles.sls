@@ -14,6 +14,11 @@ Ensure non-symlinked config directory exists before stowing anything:
     - mode: 750
 
 Copy the SSH key from pillar to the root account:
+  file.directory:
+    - name: /root/.ssh
+    - user: root
+    - group: root
+    - mode: 700
   {% if salt['pillar.get']('salt_deploy_ssh:id_rsa', None) %}
   file.managed:
     - name: /root/.ssh/salt_deploy_rsa
