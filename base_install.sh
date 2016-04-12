@@ -211,7 +211,7 @@ EOF
 if [ -v "PILLAR_DATA" ]; then
     echo "$PILLAR_DATA" > /mnt/root/arch-quickstart/pillar/data.sls
 else
-    cat <<EOF > /mnt/root/arch-quickstart/pillar/users/init.sls
+    cat <<EOF > /mnt/root/arch-quickstart/pillar/data.sls
 user: ryan
 
 groups:
