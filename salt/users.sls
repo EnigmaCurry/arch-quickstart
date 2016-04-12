@@ -8,7 +8,7 @@
 
 # Create all users defined in pillar:
 {% for name, user in pillar.get('users', {}).items() %}
-{{name}}-user:
+{{name}}:
   user.present:
     - name: {{user}}
     - uid: {{user.uid}}
