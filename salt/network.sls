@@ -16,7 +16,21 @@ Networking tools:
 /etc/wpa_supplicant.conf:
   file.managed:
     - mode: 600
+    - contents_pillar: wpa_supplicant
 
-{% for interface in salt['pillar.get']('network_interfaces'): %}
-
+{% for interface in salt['pillar.get']('auto_wifi'): %}
+/etc/systemd/network/{{interface}}.network:
+  file.managed:
+    - contents: |
+        [Match]
+        Name={{interface}}
+        [Network]
+        DHCP=yes
+/etc/wpa_supplicant/wpa_supplicant-{{interface}}.conf:
+  file.symlink:
+    - target: /etc/wpa_supplicant.conf
+Automatically enable wifi:
+  service.enabled:
+    - names:
+      - wpa_supplicant@{{interface}}.service
 {% endfor %}
