@@ -13,10 +13,12 @@ Networking tools:
 #     - target: /run/systemd/resolve/resolv.conf
 #     - force: True
 
+{% if salt['pillar.get']('wpa_supplicant') %}
 /etc/wpa_supplicant.conf:
   file.managed:
     - mode: 600
     - contents_pillar: wpa_supplicant
+{% endif %}
 
 {% for interface in salt['pillar.get']('auto_wifi'): %}
 /etc/systemd/network/{{interface}}.network:
