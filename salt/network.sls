@@ -13,7 +13,7 @@ Networking tools:
 #     - target: /run/systemd/resolve/resolv.conf
 #     - force: True
 
-/etc/wpa_supplicant.conf
+/etc/wpa_supplicant.conf:
   file.managed:
     - mode: 600
 
