@@ -8,5 +8,5 @@
 /etc/sudoers.d/10-wheel-group:
   file:
     - managed
-    - content: |
+    - contents: |
         %wheel ALL=(ALL) ALL
