@@ -228,7 +228,7 @@ fi
 
 # Load extra user supplied salt states from their dotfiles-private repo,
 # each host has their own subdirectory in _salt/$HOSTNAME
-cat <<EOF >> /mnt/root/arch-quickstart/config/minion
+cat <<EOF >> /mnt/root/arch-quickstart/salt/config/minion
 
 file_roots:
   base:
