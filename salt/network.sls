@@ -1,7 +1,15 @@
-Apps for networking:
+Networking tools:
   pkg:
     - latest
     - names:
-      - netctl
       - wpa_supplicant
-      - dialog
+  service.enabled:
+    - names:
+      - systemd-networkd
+      - systemd-resolved
+      
+/etc/resolv.conf:
+  file.symlink:
+    - target: /run/systemd/resolve/resolv.conf
+    - force: True
+
