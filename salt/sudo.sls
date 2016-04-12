@@ -8,5 +8,5 @@
 /etc/sudoers.d/10-wheel-group:
   file:
     - managed
-    - source: salt://sudo/10-wheel-group
-    
+    - content: |
+        %wheel ALL=(ALL) ALL

@@ -6,23 +6,26 @@ Apps for dotfiles management:
     - names:
       - stow
 
-/home/{{user}}/.config:
+Ensure non-symlinked config directory exists before stowing anything:
   file.directory:
+    - name: /home/{{user}}/.config
     - user: {{user}}
     - group: {{user}}
     - mode: 750
 
-{% if salt['pillar.get']('salt_deploy_ssh:id_rsa', None) %}
-/root/.ssh/salt_deploy_rsa:
+Copy the SSH key from pillar to the root account:
+  {% if salt['pillar.get']('salt_deploy_ssh:id_rsa', None) %}
   file.managed:
+    - name: /root/.ssh/salt_deploy_rsa
     - user: root
     - group: root
     - mode: 600
     - contents_pillar: salt_deploy_ssh:id_rsa
-{% endif %}
+  {% endif %}
 
-/home/{{user}}/git:
+Create directory to hold user's git checkouts:
   file.directory:
+    - name: /home/{{user}}/git
     - user: {{user}}
     - group: {{user}}
     - mode: 750
@@ -52,7 +55,7 @@ Stow dotfiles:
 
 
 {% if salt['pillar.get']('dotfile_repos:dotfiles_private:remote', None) %}
-dotfiles_private_known_hosts:
+Copy private dofiles SSH Host key into known_hosts:
   ssh_known_hosts:
     - name: {{salt['pillar.get']('dotfile_repos:dotfiles_private:known_host:host')}}
     - port: {{salt['pillar.get']('dotfile_repos:dotfiles_private:known_host:port')}}
