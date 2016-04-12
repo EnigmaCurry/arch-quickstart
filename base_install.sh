@@ -233,7 +233,22 @@ users:
    groups:
      - wheel
 EOF
-fi    
+fi
+
+# Load extra user supplied salt states from their dotfiles-private repo,
+# each host has their own subdirectory in _salt/$HOSTNAME
+cat <<EOF >> /mnt/root/arch-quickstart/config/minion
+
+file_roots:
+  base:
+    - /home/$HOME/git/dotfiles-private/_salt/states/$HOST
+    - /root/arch-quickstart/salt
+
+pillar_roots:
+  base:
+    - /home/$HOME/git/dotfiles-private/_salt/pillar/$HOST
+    - /root/arch-quickstart/pillar
+EOF
 
 # Figure out if we are running in a virtualization layer like VirtualBox.
 # Salt won't have the correct virtual grain once we are running in systemd-nspawn

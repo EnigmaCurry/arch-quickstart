@@ -1,6 +1,6 @@
 {% set user=pillar['user'] %}
 
-user_apps:
+Apps for dotfiles management:
   pkg:
     - latest
     - names:
@@ -15,17 +15,23 @@ user_apps:
     - contents_pillar: salt_deploy_ssh:id_rsa
 {% endif %}
 
+/home/{{user}}/git:
+  file.directory:
+    - user: {{user}}
+    - group: {{user}}
+    - mode: 750
+    
 Clone dotfiles repositories:
   git.latest:
     - name: {{salt['pillar.get']('dotfile_repos:dotfiles_public:remote', 'https://github.com/EnigmaCurry/dotfiles.git')}}
     - user: root
-    - target: /home/{{user}}/dotfiles
+    - target: /home/{{user}}/git/dotfiles
     {% if salt['pillar.get']('salt_deploy_ssh:id_rsa', None) %}
     - identity: /root/.ssh/salt_deploy_rsa
     {% endif %}
 
   file.directory:
-    - name: /home/{{user}}/dotfiles
+    - name: /home/{{user}}/git/dotfiles
     - user: {{user}}
     - group: {{user}}
     - mode: 755
@@ -36,7 +42,7 @@ Clone dotfiles repositories:
 Stow dotfiles:
   cmd.run:
     - name: stow -v -t /home/{{user}} *
-    - cwd: /home/{{user}}/dotfiles
+    - cwd: /home/{{user}}/git/dotfiles
 
 
 {% if salt['pillar.get']('dotfile_repos:dotfiles_private:remote', None) %}
@@ -48,15 +54,16 @@ dotfiles_private_known_hosts:
     - present
     - key: {{salt['pillar.get']('dotfile_repos:dotfiles_private:known_host:key')}}
     - enc: {{salt['pillar.get']('dotfile_repos:dotfiles_private:known_host:enc')}}
+
 Clone private dotfiles repositories:
   git.latest:
     - name: {{salt['pillar.get']('dotfile_repos:dotfiles_private:remote')}}
     - user: root
-    - target: /home/{{user}}/dotfiles-private
+    - target: /home/{{user}}/git/dotfiles-private
     - identity: /root/.ssh/salt_deploy_rsa
 
   file.directory:
-    - name: /home/{{user}}/dotfiles-private
+    - name: /home/{{user}}/git/dotfiles-private
     - user: {{user}}
     - group: {{user}}
     - dir_mode: 700
@@ -69,6 +76,6 @@ Clone private dotfiles repositories:
 Stow private dotfiles:
   cmd.run:
     - name: stow -v -t /home/{{user}} *
-    - cwd: /home/{{user}}/dotfiles-private
+    - cwd: /home/{{user}}/git/dotfiles-private
 
 {% endif %}
