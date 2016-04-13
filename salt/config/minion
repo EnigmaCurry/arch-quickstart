@@ -1,1 +1,10 @@
 renderer: jinja | yaml | gpg
+
+file_roots:
+  base:
+    - salt
+
+pillar_roots:
+  base:
+    - pillar
+EOF
