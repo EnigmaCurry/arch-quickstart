@@ -56,7 +56,8 @@ Clone dotfiles repositories:
 
 Stow dotfiles:
   cmd.run:
-    - name: stow -v -t /home/{{user}} *
+    # Stow any dir that starts with alphanum, ignores ones starting with _
+    - name: stow -v -t /home/{{user}} [a-zA-Z0-9]*
     - cwd: /home/{{user}}/git/dotfiles
 
 
@@ -90,7 +91,8 @@ Clone private dotfiles repositories:
 
 Stow private dotfiles:
   cmd.run:
-    - name: stow -v -t /home/{{user}} *
+    # Stow any dir that starts with alphanum, ignores ones starting with _
+    - name: stow -v -t /home/{{user}} [a-zA-Z0-9]*
     - cwd: /home/{{user}}/git/dotfiles-private
 
 {% endif %}
