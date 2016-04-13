@@ -233,12 +233,14 @@ renderer: jinja | yaml | gpg
 
 file_roots:
   base:
-    - /home/$USER/git/dotfiles-private/_salt/$HOST/states
+    - /home/$USER/git/dotfiles-private/_salt/hosts/$HOST/states
+    - /home/$USER/git/dotfiles-private/_salt/states
     - /root/arch-quickstart/salt
 
 pillar_roots:
   base:
-    - /home/$USER/git/dotfiles-private/_salt/$HOST/pillar
+    - /home/$USER/git/dotfiles-private/_salt/hosts/$HOST/pillar
+    - /home/$USER/git/dotfiles-private/_salt/pillar
     - /root/arch-quickstart/pillar
 EOF
 
