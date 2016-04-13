@@ -4,6 +4,7 @@ base:
     - sudo
     - users
     - network
+    - sound
     - virtualbox-guest
     - xorg
     - i3wm
