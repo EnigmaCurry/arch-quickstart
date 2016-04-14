@@ -168,6 +168,10 @@ if [ -n "$ARCH_MIRROR" ]; then
     echo "### Set custom Arch mirror"
     echo "Server = $ARCH_MIRROR" > /etc/pacman.d/mirrorlist
 fi
+# Add some default mirrors:
+echo "Server = http://www.gtlib.gatech.edu/pub/archlinux/$repo/os/$arch" >> /etc/pacman.d/mirrorlist
+echo "Server = http://mirror.vtti.vt.edu/archlinux/$repo/os/$arch" >> /etc/pacman.d/mirrorlist
+echo "Server = http://mirrors.xmission.com/archlinux/$repo/os/$arch" >> /etc/pacman.d/mirrorlist
 
 echo "### Mount filesystems:"
 exe mount $(get_lvm_device root) /mnt
