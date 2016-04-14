@@ -78,7 +78,7 @@ Monitor configuration:
     - name: /etc/X11/xorg.conf.d/10-monitor.conf
     - contents: |
         Section "Monitor"
-	    Identifier "{{pillar['xorg']['primary_display']}}"
-	    Option     "Primary" "true"
-	EndSection
+            Identifier "{{pillar['xorg']['primary_display']}}"
+            Option     "Primary" "true"
+        EndSection
 {% endif %}
