@@ -1,3 +1,4 @@
 base:
   '*':
     - data
+    - user-data
