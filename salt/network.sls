@@ -1,3 +1,6 @@
+{% set user=pillar['user'] %}
+{% set host=salt['environ.get']('HOSTNAME') %}
+
 Networking tools:
   pkg:
     - latest
@@ -16,7 +19,10 @@ Networking tools:
 /etc/wpa_supplicant.conf:
   file.managed:
     - mode: 600
-    - source: salt://wpa_supplicant.conf
+    - source:
+      - /home/{{user}}/git/dotfiles-private/_salt/hosts/{{host}}/wpa_supplicant.conf
+      - /home/{{user}}/git/dotfiles-private/_salt/states/wpa_supplicant.conf
+      - salt://wpa_supplicant.conf
 
 {% for interface in salt['pillar.get']('auto_wifi'): %}
 /etc/systemd/network/{{interface}}.network:
