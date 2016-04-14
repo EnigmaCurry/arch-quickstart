@@ -17,6 +17,12 @@ Sound apps:
     - names:
       - avahi-daemon
 
-Enable pulseaudio for user:
-  cmd.run:
-    - name: systemctl --user enable pulseaudio
+# Enable pulseaudio service for user:
+/home/{{user}}/.config/systemd/user/default.target.wants/pulseaudio.service:
+  file.symlink:
+    - target: /usr/lib/systemd/user/pulseaudio.service
+    - makedirs: True
+/home/{{user}}/.config/systemd/user/sockets.target.wants/pulseaudio.socket:
+  file.symlink:
+    - target: /usr/lib/systemd/user/pulseaudio.socket
+    - makedirs: True
