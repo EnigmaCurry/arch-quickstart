@@ -26,15 +26,25 @@ Ensure non-symlinked config directory exists before stowing anything:
     - group: root
     - mode: 700
 
+{% if salt['pillar.get']('salt_deploy_ssh:id_rsa', None) %}
 Copy the SSH key from pillar to the root account:
-  {% if salt['pillar.get']('salt_deploy_ssh:id_rsa', None) %}
   file.managed:
     - name: /root/.ssh/salt_deploy_rsa
     - user: root
     - group: root
     - mode: 600
     - contents_pillar: salt_deploy_ssh:id_rsa
-  {% endif %}
+
+Configure ssh to use deploy key:
+  file.managed:
+    - name: /root/.ssh/config
+    - user: root
+    - group: root
+    - mode: 600
+    - contents: |
+        Host *
+            IdentityFile ~/.ssh/salt_deploy_rsa
+{% endif %}
 
 Create directory to hold user's git checkouts:
   file.directory:
