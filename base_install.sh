@@ -257,14 +257,14 @@ if [ -z "$VIRTUAL" ]; then
 fi
 
 # Start the new arch install in a system container.
-pacman -Sy
-pacman -S --noconfirm dtach
-dtach -n /tmp/arch-dtach systemd-nspawn -M arch -b -D /mnt
+exe pacman -Sy
+exe pacman -S --noconfirm dtach
+exe dtach -n /tmp/arch-dtach systemd-nspawn -M arch -b -D /mnt
 sleep 5
 # Run saltstack tasks inside the container.  Without this things like
 # enabling services will fail because the archiso environment does not
 # have a fully working systemd for the new system.
-machinectl --setenv=VIRTUAL=$VIRTUAL --setenv=LOG=/root/install.log shell arch /bin/bash /root/arch-quickstart/user_bootstrap.sh
+exe machinectl --setenv=VIRTUAL=$VIRTUAL --setenv=LOG=/root/install.log shell arch /bin/bash /root/arch-quickstart/user_bootstrap.sh
 
 cat <<EOF | arch-chroot /mnt /bin/bash
   echo $USER:$PASS | chpasswd
