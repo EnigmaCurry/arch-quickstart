@@ -20,6 +20,13 @@ Ensure non-symlinked config directory exists before stowing anything:
       - sls: core
       - sls: users
 
+# Create pulseaudio config directory before dotfiles state creates a symlink there:
+/home/{{user}}/.config/pulse:
+  file.directory:
+    - user: {{user}}
+    - group: {{user}}
+    - mode: 700
+
 /root/.ssh:
   file.directory:
     - user: root

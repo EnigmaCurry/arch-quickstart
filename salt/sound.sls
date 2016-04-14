@@ -12,3 +12,4 @@ Sound apps:
       - paprefs
       - pavucontrol
       - rygel
+
