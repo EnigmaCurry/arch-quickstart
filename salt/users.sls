@@ -17,4 +17,11 @@
     {% for group in user.groups %}
       - {{group}}
     {% endfor %}
+
+{{name}} home dir:
+  file.directory:
+    - name: /home/{{name}}
+    - user: {{name}}
+    - group: {{name}}
+    - mode: 755
 {% endfor %}
