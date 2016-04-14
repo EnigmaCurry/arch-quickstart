@@ -1,7 +1,7 @@
 {% set user=pillar['user'] %}
 
 include:
-  - base
+  - core
   - users
 
 Apps for dotfiles management:
@@ -17,7 +17,7 @@ Ensure non-symlinked config directory exists before stowing anything:
     - group: {{user}}
     - mode: 750
     - require:
-      - sls: base
+      - sls: core
       - sls: users
 
 /root/.ssh:

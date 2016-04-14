@@ -1,6 +1,6 @@
 base:
   '*':
-    - base
+    - core
     - sudo
     - users
     - network
