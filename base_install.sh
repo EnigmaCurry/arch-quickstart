@@ -235,6 +235,8 @@ file_roots:
   base:
     - /home/$USER/git/dotfiles-private/_salt/hosts/$HOST/states
     - /home/$USER/git/dotfiles-private/_salt/states
+    - /home/$USER/git/dotfiles/_salt/hosts/$HOST/states
+    - /home/$USER/git/dotfiles/_salt/states
     - /root/arch-quickstart/salt
 
 pillar_roots:
