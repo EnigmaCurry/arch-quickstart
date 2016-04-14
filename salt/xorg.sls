@@ -71,3 +71,14 @@ Turn caps-lock into a super key:
               MatchIsKeyboard "on"
               Option "XKbOptions" "caps:super"
           EndSection
+
+{% if salt['pillar.get']('xorg:primary_display', None) %}
+Monitor configuration:
+  file.managed:
+    - name: /etc/X11/xorg.conf.d/10-monitor.conf
+    - contents: |
+        Section "Monitor"
+	    Identifier "{{pillar['xorg']['primary_display']}}"
+	    Option     "Primary" "true"
+	EndSection
+{% endif %}
