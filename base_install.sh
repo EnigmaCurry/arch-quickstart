@@ -210,15 +210,19 @@ fi
     
 cat <<EOF | arch-chroot /mnt /bin/bash
   pacman -S --noconfirm git salt-zmq
-  git clone $ARCH_QUICKSTART_REPO /root/arch-quickstart
-  git -C /root/arch-quickstart checkout $ARCH_QUICKSTART_BRANCH
+  mkdir /opt
+  git clone $ARCH_QUICKSTART_REPO /opt/arch-quickstart
+  git -C /opt/arch-quickstart checkout $ARCH_QUICKSTART_BRANCH
+  chown -R $USER:root /opt/arch-quickstart
+  chown -R root:root /opt/arch-quickstart/pillar
+  chmod 700 /opt/arch-quickstart/pillar
 EOF
 
 if [ -v "PILLAR_DATA" ]; then
-    echo "$PILLAR_DATA" > /mnt/root/arch-quickstart/pillar/data.sls
+    echo "$PILLAR_DATA" > /mnt/opt/arch-quickstart/pillar/data.sls
 else
-    cat <<EOF > /mnt/root/arch-quickstart/pillar/data.sls
-user: ryan
+    cat <<EOF > /mnt/opt/arch-quickstart/pillar/data.sls
+user: $USER
 
 groups:
   $USER: 1000
@@ -234,7 +238,7 @@ fi
 
 # Load extra user supplied salt states from their dotfiles-private repo,
 # each host has their own subdirectory in _salt/$HOSTNAME
-cat <<EOF > /mnt/root/arch-quickstart/salt/config/minion
+cat <<EOF > /mnt/opt/arch-quickstart/salt/config/minion
 renderer: jinja | yaml | gpg
 
 file_roots:
@@ -243,13 +247,13 @@ file_roots:
     - /home/$USER/git/dotfiles-private/_salt/states
     - /home/$USER/git/dotfiles/_salt/hosts/$HOST/states
     - /home/$USER/git/dotfiles/_salt/states
-    - /root/arch-quickstart/salt
+    - /opt/arch-quickstart/salt
 
 pillar_roots:
   base:
     - /home/$USER/git/dotfiles-private/_salt/hosts/$HOST/pillar
     - /home/$USER/git/dotfiles-private/_salt/pillar
-    - /root/arch-quickstart/pillar
+    - /opt/arch-quickstart/pillar
 EOF
 
 # Figure out if we are running in a virtualization layer like VirtualBox.
@@ -270,7 +274,7 @@ sleep 5
 # Run saltstack tasks inside the container.  Without this things like
 # enabling services will fail because the archiso environment does not
 # have a fully working systemd for the new system.
-exe machinectl --setenv=VIRTUAL=$VIRTUAL --setenv=LOG=/root/install.log shell arch /bin/bash /root/arch-quickstart/user_bootstrap.sh
+exe machinectl --setenv=VIRTUAL=$VIRTUAL --setenv=LOG=/root/install.log shell arch /bin/bash /opt/arch-quickstart/user_bootstrap.sh
 
 cat <<EOF | arch-chroot /mnt /bin/bash
   echo $USER:$PASS | chpasswd
