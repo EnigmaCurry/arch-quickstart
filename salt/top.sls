@@ -1,5 +1,6 @@
 base:
   '*':
+    - dotfiles
     - core
     - sudo
     - users
@@ -8,5 +9,4 @@ base:
     - virtualbox-guest
     - xorg
     - i3wm
-    - dotfiles
     - user-states
