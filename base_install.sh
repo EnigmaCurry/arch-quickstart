@@ -42,6 +42,7 @@
 [ -z "$LOCALE" ] && LOCALE=America/New_York
 [ -z "$HOST" ] && HOST=arch
 [ -z "$ARCH_QUICKSTART_REPO" ] && ARCH_QUICKSTART_REPO="https://github.com/EnigmaCurry/arch-quickstart.git"
+[ -z "$ARCH_QUICKSTART_BRANCH" ] && ARCH_QUICKSTART_BRANCH="master"
 # Target to run:
 #  base_install - Install just the base Arch Linux
 #  full_install - Install base Arch and then invoke salt files
@@ -210,6 +211,7 @@ fi
 cat <<EOF | arch-chroot /mnt /bin/bash
   pacman -S --noconfirm git salt-zmq
   git clone $ARCH_QUICKSTART_REPO /root/arch-quickstart
+  git -C /root/arch-quickstart checkout $ARCH_QUICKSTART_BRANCH
 EOF
 
 if [ -v "PILLAR_DATA" ]; then
