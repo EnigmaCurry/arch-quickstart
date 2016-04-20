@@ -1,4 +1,10 @@
 set -e
+
+if [ $UID != 0 ]; then
+    echo "user_bootstrap must be run as root"
+    exit 1
+fi    
+
 BASEDIR=$(dirname "$0")
 [ -z "$LOG" ] && LOG=/dev/null
 
