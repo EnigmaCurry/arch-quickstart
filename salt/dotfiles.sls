@@ -78,6 +78,10 @@ Clone dotfiles repositories:
       - user
       - group
 
+Remove stock bashrc:
+  file.remove:
+    - name: /home/{{user}}/.bashrc
+
 Stow dotfiles:
   cmd.run:
     # Stow any dir that starts with alphanum, ignores ones starting with _
