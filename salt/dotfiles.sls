@@ -79,8 +79,8 @@ Clone dotfiles repositories:
       - group
 
 Remove stock bashrc:
-  file.remove:
-    - name: /home/{{user}}/.bashrc
+  cmd.run:
+    - name: rm /home/{{user}}/.bashrc
 
 Stow dotfiles:
   cmd.run:
